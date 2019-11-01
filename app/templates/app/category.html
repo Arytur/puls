@@ -1,0 +1,10 @@
+<h1>{{ category.name }}</h1>
+{% if category %}
+    <ul>
+    {% for product in category.product_set.all %}
+        <li><a href="{% url 'app:product' product.id %}">{{ product.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No products to display</p>
+{% endif %}

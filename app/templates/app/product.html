@@ -1,0 +1,9 @@
+<h2>{{ product.name }}</h2>
+<h2>{{ product.shop }}</h2>
+<h2>{{ price }}</h2>
+<a href="{{ product.url }}">go to shop</a>
+<ul>
+{% for price in product.pricehistory_set.all %}
+    <li>{{ price.price }}</li>
+{% endfor %}
+</ul>
