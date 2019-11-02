@@ -6,7 +6,7 @@ class ShopingPipeline(object):
     def process_item(self, item, spider):
         try:
             # check if Product exists
-            product = Product.objects.get(url=item['url'])
+            product = Product.objects.get(productinshop__url=item['url'])
             # check if price for today already exists
             td = date.today()
             product.pricehistory_set.get(date=td)
