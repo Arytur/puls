@@ -22,7 +22,7 @@ def category(request, category_id):
 
 def product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-    price = MediaExpertSpider()
+    price = product.pricehistory_set.last()
     context = {
         'product': product,
         'price': price,
