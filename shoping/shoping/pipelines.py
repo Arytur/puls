@@ -1,20 +1,20 @@
 from datetime import date
-from app.models import PriceHistory, Product
+from app.models import PriceHistory, ProductInShop
 
 
 class ShopingPipeline(object):
     def process_item(self, item, spider):
         try:
             # check if Product exists
-            product = Product.objects.get(productinshop__url=item['url'])
+            product_in_shop = ProductInShop.objects.get(url=item['url'])
             # check if price for today already exists
             td = date.today()
-            product.pricehistory_set.get(date=td)
+            product_in_shop.pricehistory_set.get(updated_at=td)
 
             # if all tests passed, quit
             return item
 
-        except Product.DoesNotExist:
+        except ProductInShop.DoesNotExist:
             # no product, do nothing
             return
 
@@ -23,7 +23,7 @@ class ShopingPipeline(object):
             pass
 
         price_history = PriceHistory()
-        price_history.product = product
+        price_history.product_in_shop = product_in_shop
         price_history.price = float(item['price'])
         price_history.save()
         return item

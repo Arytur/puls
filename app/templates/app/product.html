@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Name: {{ product.name }}</h2>
     <h2>Shop: {{ product.shop }}</h2>
-    <a href="{{ product.url }}" target="_blank">Go to shop</a>
+    <a href="{{ product.productinshop_set.first.url }}" target="_blank">Go to shop</a>
     <h3>Last scraped prices</h3>
     <ul>
     {% for price in product.pricehistory_set.all %}
