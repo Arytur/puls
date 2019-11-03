@@ -4,17 +4,19 @@ import scrapy
 
 from ..items import ShopingItem
 
-from app.models import ProductInShop, Shop
+from app.models import ProductInShop
 
 logger = logging.getLogger(__name__)
 
+
 class WrowroSpider(scrapy.Spider):
     name = 'wrowro'
-    shop = Shop.objects.get(name="wrowro")
-    products = ProductInShop.objects.filter(shop=shop).values_list("url", flat=True) 
-    
-    logger.info('%s spider started for %d pages', shop, len(products))
+    products = (ProductInShop.objects.filter(
+        shop__name="wrowro")
+        .values_list("url", flat=True))
     start_urls = list(products) 
+
+    logger.info('%s spider started for %d pages', shop, len(products))
 
     def parse(self, response):
         pattern = '//div[has-class("price")]//em[has-class("main-price")]//text()'

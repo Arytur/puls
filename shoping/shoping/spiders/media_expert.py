@@ -3,17 +3,19 @@ import scrapy
 
 from ..items import ShopingItem
 
-from app.models import ProductInShop, Shop
+from app.models import ProductInShop
 
 logger = logging.getLogger(__name__)
 
+
 class MediaExpertSpider(scrapy.Spider):
     name = 'media_expert'
-    shop = Shop.objects.get(name="mediaexpert")
-    products = ProductInShop.objects.filter(shop=shop).values_list("url", flat=True) 
-    
-    logger.info('Spider started for %d pages', len(products))
+    products = (ProductInShop.objects.filter(
+        shop__name="mediaexpert")
+        .values_list("url", flat=True))
     start_urls = list(products) 
+
+    logger.info('Spider started for %d pages', len(products))
 
     def parse(self, response):
         pattern = '//div[has-class("buy_info_price")]//p[has-class("price")]//text()'

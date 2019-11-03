@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
-from .models import Category, Product
-from shoping.shoping.spiders.media_expert import MediaExpertSpider
+from .models import Category, Product, ProductInShop
 
 
 def index(request):
@@ -22,9 +21,9 @@ def category(request, category_id):
 
 def product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-    price = product.pricehistory_set.last()
+    product_in_shops = ProductInShop.objects.filter(product=product)
     context = {
         'product': product,
-        'price': price,
+        'product_in_shops': product_in_shops,
     }
     return render(request, 'app/product.html', context=context)

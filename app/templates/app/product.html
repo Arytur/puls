@@ -4,12 +4,15 @@
 
 {% block content %}
     <h2>Name: {{ product.name }}</h2>
-    <h2>Shop: {{ product.shop }}</h2>
-    <a href="{{ product.productinshop_set.first.url }}" target="_blank">Go to shop</a>
-    <h3>Last scraped prices</h3>
-    <ul>
-    {% for price in product.pricehistory_set.all %}
-        <li>{{ price.date }} - {{ price.price }} zl</li>
+    {% for product_in_shop in product_in_shops %}
+        <h2>Shop: {{ product_in_shop.shop }}</h2>
+        <a href="{{ product_in_shop.url }}" target="_blank">Go to shop</a>
+        <h3>Last scraped prices</h3>
+        <ul>
+        {% for price in product_in_shop.pricehistory_set.all %}
+            <li>{{ price.updated_at }} - {{ price.price }} zl</li>
+        {% endfor %}
+        </ul>
+        <br><hr><br>
     {% endfor %}
-    </ul>
 {% endblock %}
